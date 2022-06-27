@@ -1,6 +1,7 @@
-{%- set payment_methods = ['bank_transfer', 'credit_card', 'coupon', 'gift_card']-%}
+{%- set payment_methods = get_payment_methods() -%}
+
 with payments as (
-   select * from {{ ref('stg_payments') }}
+   select * from  {{ ref('stg_payments') }}
 ),
  
 final as (
@@ -11,7 +12,7 @@ final as (
         {%- if not loop.last -%}
          ,
         {% endif -%}
-       {% endfor %}
+       {%- endfor %}
  
    from payments
    group by 1
